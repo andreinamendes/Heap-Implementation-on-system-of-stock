@@ -1,29 +1,50 @@
 package br.com.ufc.model;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.HashMap;
 
 public class Estoque {
-	private String categoria;
-	private LinkedList<Produto> produtos;
-	
+	String categoria;
+	HashMap<Integer, Produto> produtos;
+
 	public Estoque() {
-		this.produtos = new LinkedList<>();
+		this.produtos = new HashMap<Integer, Produto>(); 
 	}
 	
 	public String getCategoria() {
 		return categoria;
 	}
-	
+
 	public void setCategoria(String categoria) {
 		this.categoria = categoria;
 	}
-	
-	public List<Produto> getProdutos(){
+
+	public HashMap<Integer, Produto> getProdutos() {
 		return produtos;
 	}
+
+	public Produto getProdutos(String nome){
+		for(int a = 0; a < this.produtos.size(); a++) {
+			if(this.produtos.get(a).getNome() == nome) {
+				return produtos.get(a);
+			}
+		}
+		return null;
+	}
 	
-	public void setProdutos(Produto produto) {
-		
+	public boolean setProduto(Produto produto, Funcionario funcionario) {
+		if(funcionario.getCargo().equals("Gerente")) {
+			produtos.put(produto.getCodigo(), produto);
+			return true;
+		}
+		return false;
+	}
+	
+	public void updateProduto(Produto produto) {
+		produtos.replace(produto.getCodigo(), produto);
+	}
+	
+	public void removeProduto(int codigo, Funcionario funcionario) {
+		if(funcionario.getCargo().equals("Gerente"))
+			produtos.remove(codigo);
 	}
 }
