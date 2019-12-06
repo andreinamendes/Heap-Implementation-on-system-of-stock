@@ -6,6 +6,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import br.com.ufc.model.Funcionario;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JTextField;
@@ -21,6 +24,7 @@ import java.awt.event.ActionEvent;
 public class MenuGerente extends JFrame {
 
 	private JPanel contentPane;
+	private Funcionario funcionario;
 
 	/**
 	 * Launch the application.
@@ -37,6 +41,10 @@ public class MenuGerente extends JFrame {
 				}
 			}
 		});
+	}
+	
+	public void pegarFuncionario(Funcionario funcionario) {
+		this.funcionario = funcionario;
 	}
 
 	/**
@@ -64,6 +72,7 @@ public class MenuGerente extends JFrame {
 		btnCadastro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Cadastros cadastro = new Cadastros();
+				cadastro.pegarFuncionario(funcionario);
 				cadastro.setVisible(true);
 				dispose();
 			}
@@ -74,6 +83,7 @@ public class MenuGerente extends JFrame {
 		btnListagens.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Listagens list = new Listagens();
+				list.pegarFuncionario(funcionario);
 				list.setVisible(true);
 				dispose();
 			}

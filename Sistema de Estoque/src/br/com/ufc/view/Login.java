@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import br.com.ufc.controller.DistribuidoraController;
+import br.com.ufc.model.Funcionario;
 
 import java.awt.FlowLayout;
 import javax.swing.GroupLayout;
@@ -87,13 +88,22 @@ public class Login extends JFrame {
 				}else {
 					String cpf = textField.getText();
 					String senha = textField_1.getText();
-					String cargo = conDistribuidora.loginFuncionario(cpf, senha);
-					if(cargo.equals("Gerente")) {
-						MenuGerente menu = new MenuGerente();
-						menu.setVisible(true);
-						dispose();
-					}else {
-						
+					Funcionario funcionario;
+					if(conDistribuidora.loginFuncionario(cpf, senha) == null) {
+						JOptionPane.showMessageDialog(null, "Funcionário não encontrado.", "Erro", JOptionPane.INFORMATION_MESSAGE);
+					}else {	
+						funcionario = conDistribuidora.loginFuncionario(cpf, senha);
+						if(funcionario.getCargo().equals("Gerente")) {
+							MenuGerente menu = new MenuGerente();
+							menu.pegarFuncionario(funcionario);
+							menu.setVisible(true);
+							dispose();
+						}else {
+							MenuDespachante menu = new MenuDespachante();
+							menu.pegarFuncionario(funcionario);
+							menu.setVisible(true);
+							dispose();
+						}
 					}
 				}
 			}

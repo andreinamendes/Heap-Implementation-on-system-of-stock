@@ -21,9 +21,10 @@ public class DistribuidoraController {
 		this.estoques = new HashMap<String, Estoque>();
 	}
 	
-	public String loginFuncionario(String cpf, String senha) {
-		if(funcionarios.get(cpf).getSenha().equals(senha))
-			return funcionarios.get(cpf).getCargo();
+	public Funcionario loginFuncionario(String cpf, String senha) {
+		if(funcionarios.get(cpf) != null)
+			if(funcionarios.get(cpf).getSenha().equals(senha))
+				return funcionarios.get(cpf);
 		return null;
 	}
 	
@@ -65,7 +66,17 @@ public class DistribuidoraController {
 		return false;
 	}
 	
-	public void setProdutos(Estoque estoque, Produto produto, Funcionario funcionario) {
-		this.estoques.get(estoque.getCategoria()).setProduto(produto, funcionario);
+	public boolean setProdutos(Estoque estoque, Produto produto, Funcionario funcionario) {
+			if(estoques.get(estoque.getCategoria()).setProduto(produto, funcionario))
+				return true;
+			return false;
+	}
+	
+	public Estoque buscarProduto(String nome) {
+		for(String key: estoques.keySet()) {
+			if(estoques.get(key).getProdutos(nome) != null)
+				return estoques.get(key);
+		}
+		return null;
 	}
 }

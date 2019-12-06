@@ -7,6 +7,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import br.com.ufc.controller.DistribuidoraController;
+import br.com.ufc.model.Estoque;
 import br.com.ufc.model.Funcionario;
 import br.com.ufc.model.Produto;
 
@@ -29,6 +31,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import java.awt.Font;
+import br.com.ufc.model.*;
 
 public class Cadastros extends JFrame {
 
@@ -45,10 +48,9 @@ public class Cadastros extends JFrame {
 	private JTextField textField_7;
 	private JTextField textField_8;
 	private JTextField textField_9;
+	private Funcionario funcionario;
+	private DistribuidoraController conDistribuidora;
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -61,173 +63,30 @@ public class Cadastros extends JFrame {
 			}
 		});
 	}
+	
+	public void pegarFuncionario(Funcionario funcionario) {
+		this.funcionario = funcionario;
+	}
 
-	/**
-	 * Create the frame.
-	 */
 	public Cadastros() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(400, 200, 600, 400);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
+		conDistribuidora = new DistribuidoraController();
 		
 		JLayeredPane Panels = new JLayeredPane();
 		JPanel opcoes = new JPanel();
 		JPanel Inicio = new JPanel();
-		JPanel CadEstoque = new JPanel();
 		JPanel CadProdutos = new JPanel();
-		
-		CadProdutos.setBounds(0, 0, 566, 243);
-		Panels.add(CadProdutos);
-		
-		JButton button = new JButton("Cadastrar");
-		button.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				if(textField.getText().isEmpty() || textField_3.getText().isEmpty() || textField_1.getText().isEmpty() || textField_2.getText().isEmpty()) {
-					JOptionPane.showMessageDialog(null, "Dados inválidos. Digite-os novamente", "Erro.", JOptionPane.INFORMATION_MESSAGE);
-					textField.setText("");
-					textField_1.setText("");
-					textField_2.setText("");
-					textField_3.setText("");
-					textField_4.setText("");
-				}else {
-					Produto produto = new Produto();
-					produto.setCodigo(Integer.parseInt(textField.getText()));
-					produto.setQuantidade(Integer.parseInt(textField_1.getText()));
-					produto.setData_val(textField_2.getText());
-					produto.setNome(textField_3.getText());
-					produto.setData_fab(textField_4.getText());
-	//				if(estoque.setProduto(produto))
-	//					JOptionPane.showMessageDialog(null, "Cadastrado com sucesso.", "", JOptionPane.INFORMATION_MESSAGE);
-	//				else 
-	//					JOptionPane.showMessageDialog(null, "Erro ao cadastrar tente novamente mais tarde.", "", JOptionPane.INFORMATION_MESSAGE);
-					Panels.removeAll();
-					Panels.add(Inicio);
-					Panels.repaint();
-					Panels.revalidate();
-				}
-			}
-		});
-		
-		JButton button_1 = new JButton("Limpar");
-		button_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				textField.setText("");
-				textField_1.setText("");
-				textField_2.setText("");
-				textField_3.setText("");
-				textField_4.setText("");
-			}
-		});
-		
-		JLabel label = new JLabel("Nome:");
-		
-		JLabel label_1 = new JLabel("Quantidade:");
-		
-		JLabel label_2 = new JLabel("Data de fabricação:");
-		
-		JLabel label_3 = new JLabel("Código:");
-		
-		JLabel label_4 = new JLabel("Data de validade:");
-		
-		textField = new JTextField();
-		textField.setColumns(10);
-		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
-		
-		textField_3 = new JTextField();
-		textField_3.setColumns(10);
-		
-		textField_4 = new JTextField();
-		textField_4.setColumns(10);
-		
-		JLabel label_5 = new JLabel("Digite os dados do prorduto.");
-		
-		textField_9 = new JTextField();
-		textField_9.setColumns(10);
-		
-		JLabel lblCategoriaDoEstoque = new JLabel("Categoria do estoque:");
-		GroupLayout gl_CadProdutos = new GroupLayout(CadProdutos);
-		gl_CadProdutos.setHorizontalGroup(
-			gl_CadProdutos.createParallelGroup(Alignment.TRAILING)
-				.addGroup(Alignment.LEADING, gl_CadProdutos.createSequentialGroup()
-					.addGap(133)
-					.addGroup(gl_CadProdutos.createParallelGroup(Alignment.TRAILING)
-						.addGroup(gl_CadProdutos.createParallelGroup(Alignment.LEADING)
-							.addGroup(gl_CadProdutos.createSequentialGroup()
-								.addGap(49)
-								.addComponent(label_5))
-							.addGroup(gl_CadProdutos.createSequentialGroup()
-								.addGroup(gl_CadProdutos.createParallelGroup(Alignment.LEADING)
-									.addComponent(label)
-									.addComponent(label_1)
-									.addComponent(label_2)
-									.addComponent(label_3)
-									.addComponent(label_4)
-									.addComponent(lblCategoriaDoEstoque))
-								.addGap(32)
-								.addGroup(gl_CadProdutos.createParallelGroup(Alignment.LEADING, false)
-									.addComponent(textField)
-									.addComponent(textField_1)
-									.addComponent(textField_2)
-									.addComponent(textField_3, GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
-									.addComponent(textField_4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-									.addComponent(textField_9, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
-						.addGroup(Alignment.LEADING, gl_CadProdutos.createSequentialGroup()
-							.addGap(10)
-							.addGroup(gl_CadProdutos.createSequentialGroup()
-								.addComponent(button)
-								.addGap(39))
-							.addComponent(button_1)
-							.addPreferredGap(ComponentPlacement.RELATED, 56, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(145, Short.MAX_VALUE))
-		);
-		gl_CadProdutos.setVerticalGroup(
-			gl_CadProdutos.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_CadProdutos.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(label_5)
-					.addGap(18)
-					.addGroup(gl_CadProdutos.createParallelGroup(Alignment.BASELINE)
-						.addComponent(label_3)
-						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_CadProdutos.createParallelGroup(Alignment.BASELINE)
-						.addComponent(label)
-						.addComponent(textField_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_CadProdutos.createParallelGroup(Alignment.BASELINE)
-						.addComponent(label_1)
-						.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_CadProdutos.createParallelGroup(Alignment.BASELINE)
-						.addComponent(label_2)
-						.addComponent(textField_4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_CadProdutos.createParallelGroup(Alignment.BASELINE)
-						.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(label_4))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_CadProdutos.createParallelGroup(Alignment.BASELINE)
-						.addComponent(textField_9, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblCategoriaDoEstoque))
-					.addPreferredGap(ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
-					.addGroup(gl_CadProdutos.createParallelGroup(Alignment.BASELINE)
-						.addComponent(button_1)
-						.addComponent(button))
-					.addGap(11))
-		);
-		
-		CadProdutos.setLayout(gl_CadProdutos);
+		JPanel CadEstoque = new JPanel();
 		JPanel CadFuncionarios = new JPanel();
 		
-		CadFuncionarios.setBounds(0, 0, 566, 243);
-		Panels.add(CadFuncionarios);
+		Inicio.setBounds(0, 0, 566, 243);
+		Panels.add(Inicio);
+		Panels.repaint();
+		Panels.revalidate();
 		
 		JLabel label_6 = new JLabel("Digite as indormações do funcionário.");
 		JPanel panel_1 = new JPanel();
@@ -319,8 +178,10 @@ public class Cadastros extends JFrame {
 					fun.setCpf(textField_1.getText());
 					fun.setCargo(comboBox.getSelectedItem() + "");
 					fun.setSalario(Integer.parseInt(textField_3.getText()));
-					//conDistribuidora.setFuncionarios(fun, funcionario);
-					JOptionPane.showMessageDialog(null, "Cadastrado com sucesso." + comboBox.getSelectedItem() + "", "", JOptionPane.INFORMATION_MESSAGE);
+					if(conDistribuidora.setFuncionarios(fun, funcionario))
+						JOptionPane.showMessageDialog(null, "Cadastrado com sucesso.", "", JOptionPane.INFORMATION_MESSAGE);
+					else
+						JOptionPane.showMessageDialog(null, "Não foi possível realizar o cadastro. Tente novamente mais tarde.", "Erro.", JOptionPane.INFORMATION_MESSAGE);
 					Panels.removeAll();
 					Panels.add(Inicio);
 					Panels.repaint();
@@ -329,6 +190,8 @@ public class Cadastros extends JFrame {
 			}
 		});
 		
+		CadFuncionarios.setBounds(0, 0, 566, 243);
+		Panels.add(CadFuncionarios);
 		GroupLayout gl_CadFuncionarios = new GroupLayout(CadFuncionarios);
 		gl_CadFuncionarios.setHorizontalGroup(
 			gl_CadFuncionarios.createParallelGroup(Alignment.LEADING)
@@ -361,6 +224,225 @@ public class Cadastros extends JFrame {
 		);
 		
 		CadFuncionarios.setLayout(gl_CadFuncionarios);
+		
+		CadEstoque.setBounds(0, 0, 566, 243);
+		Panels.add(CadEstoque);
+		
+		JLabel lblNewLabel = new JLabel("Digite os dados do estoque.");
+		
+		textField_8 = new JTextField();
+		textField_8.setColumns(10);
+		
+		JLabel lblCategoria = new JLabel("Categoria:");
+		
+		JButton btnCadastrar = new JButton("Cadastrar");
+		btnCadastrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(textField_8.getText().isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Dados inválidos. Digite-os novamente", "Erro.", JOptionPane.INFORMATION_MESSAGE);
+					textField_8.setText("");
+				}else {
+					Estoque estoque = new Estoque();
+					estoque.setCategoria(textField_8.getText());
+					if(conDistribuidora.setEstoque(estoque, funcionario))
+						JOptionPane.showMessageDialog(null, "Cadastrado com sucesso.", "", JOptionPane.INFORMATION_MESSAGE);
+					else
+						JOptionPane.showMessageDialog(null, "Não foi possível realizar o cadastro. Tente novamente mais tarde.", "Erro.", JOptionPane.INFORMATION_MESSAGE);
+				}
+				Panels.removeAll();
+				Panels.add(Inicio);
+				Panels.repaint();
+				Panels.revalidate();
+			}
+		});
+		
+		GroupLayout gl_CadEstoque = new GroupLayout(CadEstoque);
+		gl_CadEstoque.setHorizontalGroup(
+			gl_CadEstoque.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_CadEstoque.createSequentialGroup()
+					.addGap(231)
+					.addComponent(btnCadastrar)
+					.addContainerGap(234, Short.MAX_VALUE))
+				.addGroup(Alignment.TRAILING, gl_CadEstoque.createSequentialGroup()
+					.addContainerGap(174, Short.MAX_VALUE)
+					.addGroup(gl_CadEstoque.createParallelGroup(Alignment.LEADING)
+						.addGroup(Alignment.TRAILING, gl_CadEstoque.createSequentialGroup()
+							.addComponent(lblNewLabel)
+							.addGap(30))
+						.addGroup(Alignment.TRAILING, gl_CadEstoque.createSequentialGroup()
+							.addComponent(lblCategoria)
+							.addGap(54)
+							.addComponent(textField_8, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+					.addGap(143))
+		);
+		
+		gl_CadEstoque.setVerticalGroup(
+			gl_CadEstoque.createParallelGroup(Alignment.LEADING)
+				.addGroup(Alignment.TRAILING, gl_CadEstoque.createSequentialGroup()
+					.addContainerGap(60, Short.MAX_VALUE)
+					.addComponent(lblNewLabel)
+					.addGap(29)
+					.addGroup(gl_CadEstoque.createParallelGroup(Alignment.BASELINE)
+						.addComponent(textField_8, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblCategoria))
+					.addGap(29)
+					.addComponent(btnCadastrar)
+					.addGap(66))
+		);
+		
+		CadEstoque.setLayout(gl_CadEstoque);
+		
+		CadProdutos.setBounds(0, 0, 566, 243);
+		Panels.add(CadProdutos);
+		
+		JButton button = new JButton("Cadastrar");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(textField.getText().isEmpty() || textField_3.getText().isEmpty() || textField_1.getText().isEmpty() || textField_2.getText().isEmpty() || textField_4.getText().isEmpty() || textField_9.getText().isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Dados inválidos. Digite-os novamente", "Erro.", JOptionPane.INFORMATION_MESSAGE);
+					textField.setText("");
+					textField_1.setText("");
+					textField_2.setText("");
+					textField_3.setText("");
+					textField_4.setText("");
+					textField_9.setText("");
+				}else {
+					Produto produto = new Produto();
+					produto.setCodigo(Integer.parseInt(textField.getText()));
+					produto.setQuantidade(Integer.parseInt(textField_1.getText()));
+					produto.setData_val(textField_2.getText());
+					produto.setNome(textField_3.getText());
+					produto.setData_fab(textField_4.getText());
+					String categoria = textField_9.getText();
+					Estoque estoque = conDistribuidora.getEstoque(categoria);
+					if(estoque != null)	
+						if(conDistribuidora.setProdutos(estoque, produto, funcionario))
+							JOptionPane.showMessageDialog(null, "Cadastrado com sucesso.", "", JOptionPane.INFORMATION_MESSAGE);
+						else 
+							JOptionPane.showMessageDialog(null, "Erro ao cadastrar tente novamente mais tarde.", "Erro", JOptionPane.INFORMATION_MESSAGE);
+					else
+						JOptionPane.showMessageDialog(null, "Este estoque não existe.", "Erro", JOptionPane.INFORMATION_MESSAGE);
+					Panels.removeAll();
+					Panels.add(Inicio);
+					Panels.repaint();
+					Panels.revalidate();
+				}
+			}
+		});
+		
+		JButton button_1 = new JButton("Limpar");
+		button_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				textField.setText("");
+				textField_1.setText("");
+				textField_2.setText("");
+				textField_3.setText("");
+				textField_4.setText("");
+			}
+		});
+		
+		JLabel label = new JLabel("Nome:");
+		
+		JLabel label_1 = new JLabel("Quantidade:");
+		
+		JLabel label_2 = new JLabel("Data de fabricação:");
+		
+		JLabel label_3 = new JLabel("Código:");
+		
+		JLabel label_4 = new JLabel("Data de validade:");
+		
+		textField = new JTextField();
+		textField.setColumns(10);
+		
+		textField_1 = new JTextField();
+		textField_1.setColumns(10);
+		
+		textField_2 = new JTextField();
+		textField_2.setColumns(10);
+		
+		textField_3 = new JTextField();
+		textField_3.setColumns(10);
+		
+		textField_4 = new JTextField();
+		textField_4.setColumns(10);
+		
+		JLabel label_5 = new JLabel("Digite os dados do prorduto.");
+		
+		textField_9 = new JTextField();
+		textField_9.setColumns(10);
+		
+		JLabel lblCategoriaDoEstoque = new JLabel("Categoria do estoque:");
+		GroupLayout gl_CadProdutos = new GroupLayout(CadProdutos);
+		gl_CadProdutos.setHorizontalGroup(
+			gl_CadProdutos.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_CadProdutos.createSequentialGroup()
+					.addGroup(gl_CadProdutos.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_CadProdutos.createSequentialGroup()
+							.addGap(133)
+							.addGroup(gl_CadProdutos.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_CadProdutos.createSequentialGroup()
+									.addGap(49)
+									.addComponent(label_5))
+								.addGroup(gl_CadProdutos.createSequentialGroup()
+									.addGroup(gl_CadProdutos.createParallelGroup(Alignment.LEADING)
+										.addComponent(label)
+										.addComponent(label_1)
+										.addComponent(label_2)
+										.addComponent(label_3)
+										.addComponent(label_4)
+										.addComponent(lblCategoriaDoEstoque))
+									.addGap(32)
+									.addGroup(gl_CadProdutos.createParallelGroup(Alignment.LEADING, false)
+										.addComponent(textField)
+										.addComponent(textField_1)
+										.addComponent(textField_2)
+										.addComponent(textField_3, GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
+										.addComponent(textField_4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addComponent(textField_9, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))))
+						.addGroup(gl_CadProdutos.createSequentialGroup()
+							.addGap(171)
+							.addComponent(button)
+							.addGap(39)
+							.addComponent(button_1)))
+					.addContainerGap(126, Short.MAX_VALUE))
+		);
+		gl_CadProdutos.setVerticalGroup(
+			gl_CadProdutos.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_CadProdutos.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(label_5)
+					.addGap(18)
+					.addGroup(gl_CadProdutos.createParallelGroup(Alignment.BASELINE)
+						.addComponent(label_3)
+						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_CadProdutos.createParallelGroup(Alignment.BASELINE)
+						.addComponent(label)
+						.addComponent(textField_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_CadProdutos.createParallelGroup(Alignment.BASELINE)
+						.addComponent(label_1)
+						.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_CadProdutos.createParallelGroup(Alignment.BASELINE)
+						.addComponent(label_2)
+						.addComponent(textField_4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_CadProdutos.createParallelGroup(Alignment.BASELINE)
+						.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(label_4))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_CadProdutos.createParallelGroup(Alignment.BASELINE)
+						.addComponent(textField_9, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblCategoriaDoEstoque))
+					.addPreferredGap(ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+					.addGroup(gl_CadProdutos.createParallelGroup(Alignment.BASELINE)
+						.addComponent(button_1)
+						.addComponent(button))
+					.addContainerGap())
+		);
+		
+		CadProdutos.setLayout(gl_CadProdutos);
 		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
@@ -458,65 +540,8 @@ public class Cadastros extends JFrame {
 					.addComponent(btnVoltar)
 					.addContainerGap())
 		);
-		CadEstoque.setBounds(0, 0, 566, 243);
-		Panels.add(CadEstoque);
 		
-		JLabel lblNewLabel = new JLabel("Digite os dados do estoque.");
 		
-		textField_8 = new JTextField();
-		textField_8.setColumns(10);
-		
-		JLabel lblCategoria = new JLabel("Categoria:");
-		
-		JButton btnCadastrar = new JButton("Cadastrar");
-		btnCadastrar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				//CADASTRO ESTOQUE
-				Panels.removeAll();
-				Panels.add(Inicio);
-				Panels.repaint();
-				Panels.revalidate();
-			}
-		});
-		
-		GroupLayout gl_CadEstoque = new GroupLayout(CadEstoque);
-		gl_CadEstoque.setHorizontalGroup(
-			gl_CadEstoque.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_CadEstoque.createSequentialGroup()
-					.addGap(231)
-					.addComponent(btnCadastrar)
-					.addContainerGap(234, Short.MAX_VALUE))
-				.addGroup(Alignment.TRAILING, gl_CadEstoque.createSequentialGroup()
-					.addContainerGap(174, Short.MAX_VALUE)
-					.addGroup(gl_CadEstoque.createParallelGroup(Alignment.LEADING)
-						.addGroup(Alignment.TRAILING, gl_CadEstoque.createSequentialGroup()
-							.addComponent(lblNewLabel)
-							.addGap(30))
-						.addGroup(Alignment.TRAILING, gl_CadEstoque.createSequentialGroup()
-							.addComponent(lblCategoria)
-							.addGap(54)
-							.addComponent(textField_8, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-					.addGap(143))
-		);
-		
-		gl_CadEstoque.setVerticalGroup(
-			gl_CadEstoque.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_CadEstoque.createSequentialGroup()
-					.addContainerGap(60, Short.MAX_VALUE)
-					.addComponent(lblNewLabel)
-					.addGap(29)
-					.addGroup(gl_CadEstoque.createParallelGroup(Alignment.BASELINE)
-						.addComponent(textField_8, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblCategoria))
-					.addGap(29)
-					.addComponent(btnCadastrar)
-					.addGap(66))
-		);
-		
-		CadEstoque.setLayout(gl_CadEstoque);
-		
-		Inicio.setBounds(0, 0, 566, 243);
-		Panels.add(Inicio);
 		
 		JLabel lblNewLabel_1 = new JLabel("Selecione o que deseja cadastrar acima.");
 		lblNewLabel_1.setFont(new Font("Dialog", Font.BOLD, 14));
