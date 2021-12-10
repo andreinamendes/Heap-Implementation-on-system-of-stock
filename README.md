@@ -1,1 +1,1 @@
-# Heap-Implementation-on-system-of-stock
+# System-of-stock
